@@ -80,34 +80,27 @@ const gameBoard = (() => {
     )
   }
 
-  const _emptyCells = () =>
-    gameBoard.filter(
-      (i) => i != player.getSymbol() && i != computer.getSymbol()
-    )
+  const _getEmptyCells = (arr) => arr.filter((i) => typeof i == 'number')
 
-  const _checkIfWins = (obj, a, b, c) => {
+  const _checkIfWins = (board, obj, a, b, c) => {
     return (
-      gameBoard[a] === obj.getSymbol() &&
-      gameBoard[b] === obj.getSymbol() &&
-      gameBoard[c] === obj.getSymbol()
+      board[a] === obj.getSymbol() &&
+      board[b] === obj.getSymbol() &&
+      board[c] === obj.getSymbol()
     )
   }
 
-  const _checkWinner = () => {
+  const _checkWinner = (board) => {
     for (let possibility of winPossibilities) {
       const [a, b, c] = possibility
-      if (_checkIfWins(player, a, b, c)) {
-        winner = player
-        break
-      } else if (_checkIfWins(computer, a, b, c)) {
-        winner = computer
-        break
+      if (_checkIfWins(board, player, a, b, c)) {
+        return player
+      } else if (_checkIfWins(board, computer, a, b, c)) {
+        return computer
       }
     }
-    if (winner == null) {
-      if (_emptyCells().length < 1) {
-        winner = 'Tie!'
-      }
+    if (winner == null && _getEmptyCells(gameBoard).length === 0) {
+      return 'Tie!'
     }
   }
 
@@ -117,7 +110,7 @@ const gameBoard = (() => {
       displayController.getItemByIndex(index),
       value
     )
-    _checkWinner()
+    winner = _checkWinner(gameBoard)
 
     if (winner != null) {
       displayController.toggleGameOver()
@@ -125,6 +118,56 @@ const gameBoard = (() => {
         winner == 'Tie!' ? winner : `Winner: ${winner.getName()}`
       )
     }
+  }
+
+  const _minimax = (board, symbol) => {
+    if (_checkWinner(board) === player) {
+      return { score: -1 }
+    } else if (_checkWinner(board) === computer) {
+      return { score: 1 }
+    } else if (_checkWinner(board) === 'Tie!') {
+      return { score: 0 }
+    }
+    const moves = []
+    const emptyCells = _getEmptyCells(board)
+
+    for (let i = 0; i < emptyCells.length; i++) {
+      const move = {}
+
+      move.index = board[emptyCells[i]]
+      board[emptyCells[i]] = symbol
+
+      if (symbol === computer.getSymbol()) {
+        const result = _minimax(board, player.getSymbol())
+        move.score = result.score
+      } else {
+        const result = _minimax(board, computer.getSymbol())
+        move.score = result.score
+      }
+      board[emptyCells[i]] = move.index
+      moves.push(move)
+    }
+
+    let bestMove = null
+    if (symbol === computer.getSymbol()) {
+      let bestScore = -Infinity
+      for (let i = 0; i < moves.length; i++) {
+        if (moves[i].score > bestScore) {
+          bestScore = moves[i].score
+          bestMove = i
+        }
+      }
+    } else {
+      let bestScore = Infinity
+      for (let i = 0; i < moves.length; i++) {
+        if (moves[i].score < bestScore) {
+          bestScore = moves[i].score
+          bestMove = i
+        }
+      }
+    }
+
+    return moves[bestMove]
   }
 
   const playerPlay = (index) => {
@@ -143,13 +186,17 @@ const gameBoard = (() => {
       index = Math.floor(Math.random() * gameBoard.length)
     }
 
-    _updateGameBoard(index, computer.getSymbol())
+    _updateGameBoard(
+      // index,
+      _minimax(gameBoard, computer.getSymbol()).index,
+      computer.getSymbol()
+    )
   }
 
   const clear = () => {
     displayController.clearGrid()
     for (let i = 0; i < gameBoard.length; i++) {
-      gameBoard[i] = ''
+      gameBoard[i] = i
     }
     winner = null
   }

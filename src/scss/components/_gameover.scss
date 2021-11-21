@@ -1,0 +1,9 @@
+@use '../abstracts/mixins' as *;
+
+.game-over {
+  &__winner {
+    margin-bottom: 1rem;
+    font-size: 1.6rem;
+    @include text-gradient();
+  }
+}

@@ -1,0 +1,57 @@
+@use '../abstracts' as *;
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 0.5rem;
+  width: 95%;
+  margin: 2rem auto;
+  animation: splash 0.5s normal forwards ease-in-out;
+  @include background-gradient();
+
+  @media (min-width: 480px) {
+    width: 60%;
+  }
+
+  &::before {
+    content: '';
+    width: 0;
+    padding-bottom: 100%;
+    grid-row: 1 / 1;
+    grid-column: 1 / 1;
+  }
+}
+
+.grid-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $black;
+  cursor: pointer;
+
+  &:first-child {
+    grid-row: 1 / 1;
+    grid-column: 1 / 1;
+  }
+
+  &__text {
+    font-size: 3.5rem;
+    font-weight: 900;
+    @include text-gradient();
+  }
+}
+
+@keyframes splash {
+  0% {
+    transform: scale(0);
+  }
+
+  75% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}

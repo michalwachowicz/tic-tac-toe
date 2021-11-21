@@ -1,0 +1,12 @@
+@use './variables' as *;
+
+@mixin text-gradient() {
+  background: -webkit-linear-gradient($gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@mixin background-gradient() {
+  background-color: $base-color;
+  background: linear-gradient($gradient);
+}

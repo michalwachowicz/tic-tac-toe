@@ -40,6 +40,12 @@ const displayController = (() => {
     _getGameOver().querySelector('.game-over__winner').textContent = winner
   }
 
+  const clearGrid = () => {
+    for (let item of gridItems) {
+      setItemText(item, '')
+    }
+  }
+
   return {
     getItemByIndex,
     getItemText,
@@ -47,47 +53,59 @@ const displayController = (() => {
     setupClickEvent,
     toggleGameOver,
     displayWinner,
+    clearGrid,
   }
 })()
 
 const gameBoard = (() => {
   const winPossibilities = [
-    '012',
-    '345',
-    '678',
-    '036',
-    '147',
-    '258',
-    '048',
-    '246',
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [6, 4, 2],
   ]
-  const gameBoard = ['', '', '', '', '', '', '', '', '']
+  const gameBoard = [0, 1, 2, 3, 4, 5, 6, 7, 8]
   const player = createPlayer('Player', 'x')
   const computer = createPlayer('Computer', 'o')
   let winner = null
 
+  const _isCellEmpty = (i) => {
+    return (
+      gameBoard[i] === player.getSymbol() ||
+      gameBoard[i] === computer.getSymbol()
+    )
+  }
+
+  const _emptyCells = () =>
+    gameBoard.filter(
+      (i) => i != player.getSymbol() && i != computer.getSymbol()
+    )
+
   const _checkIfWins = (obj, a, b, c) => {
     return (
-      gameBoard[a] == obj.getSymbol() &&
-      gameBoard[b] == obj.getSymbol() &&
-      gameBoard[c] == obj.getSymbol()
+      gameBoard[a] === obj.getSymbol() &&
+      gameBoard[b] === obj.getSymbol() &&
+      gameBoard[c] === obj.getSymbol()
     )
   }
 
   const _checkWinner = () => {
     for (let possibility of winPossibilities) {
-      const [a, b, c] = possibility.split('')
-      if (_checkIfWins(player, +a, +b, +c)) {
+      const [a, b, c] = possibility
+      if (_checkIfWins(player, a, b, c)) {
         winner = player
         break
-      } else if (_checkIfWins(computer, +a, +b, +c)) {
+      } else if (_checkIfWins(computer, a, b, c)) {
         winner = computer
         break
       }
     }
     if (winner == null) {
-      const emptySize = gameBoard.filter((i) => i == '').length
-      if (emptySize < 1) {
+      if (_emptyCells().length < 1) {
         winner = 'Tie!'
       }
     }
@@ -99,32 +117,6 @@ const gameBoard = (() => {
       displayController.getItemByIndex(index),
       value
     )
-  }
-
-  const playerPlay = (index) => {
-    if (gameBoard[index] != '' || winner != null) return
-
-    _updateGameBoard(index, player.getSymbol())
-    _checkWinner()
-
-    if (winner == null) _computerPlay()
-    else {
-      displayController.toggleGameOver()
-      displayController.displayWinner(
-        winner == 'Tie!' ? winner : `Winner: ${winner.getName()}`
-      )
-    }
-  }
-
-  const _computerPlay = () => {
-    if (winner != null) return
-
-    let index = -1
-    while (index === -1 || gameBoard[index] != '') {
-      index = Math.floor(Math.random() * gameBoard.length)
-    }
-
-    _updateGameBoard(index, computer.getSymbol())
     _checkWinner()
 
     if (winner != null) {
@@ -135,9 +127,29 @@ const gameBoard = (() => {
     }
   }
 
+  const playerPlay = (index) => {
+    if (_isCellEmpty(index) || winner != null) return
+
+    _updateGameBoard(index, player.getSymbol())
+
+    if (winner == null) _computerPlay()
+  }
+
+  const _computerPlay = () => {
+    if (winner != null) return
+
+    let index = -1
+    while (index === -1 || _isCellEmpty(index)) {
+      index = Math.floor(Math.random() * gameBoard.length)
+    }
+
+    _updateGameBoard(index, computer.getSymbol())
+  }
+
   const clear = () => {
+    displayController.clearGrid()
     for (let i = 0; i < gameBoard.length; i++) {
-      _updateGameBoard(i, '')
+      gameBoard[i] = ''
     }
     winner = null
   }

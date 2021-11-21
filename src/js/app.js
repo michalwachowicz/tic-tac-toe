@@ -181,13 +181,7 @@ const gameBoard = (() => {
   const _computerPlay = () => {
     if (winner != null) return
 
-    let index = -1
-    while (index === -1 || _isCellEmpty(index)) {
-      index = Math.floor(Math.random() * gameBoard.length)
-    }
-
     _updateGameBoard(
-      // index,
       _minimax(gameBoard, computer.getSymbol()).index,
       computer.getSymbol()
     )

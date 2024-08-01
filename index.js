@@ -16,5 +16,14 @@ const Gameboard = (() => {
   winningCombinations.push([0, 4, 8]);
   winningCombinations.push([2, 4, 6]);
 
-  return { winningCombinations, gameboard };
+  const getWinner = () => {
+    const winner = winningCombinations.find(([a, b, c]) => {
+      const symbol = gameboard[a];
+      return symbol && symbol == gameboard[b] && symbol == gameboard[c];
+    });
+
+    return winner ? gameboard[winner[0]] : null;
+  };
+
+  return { gameboard, getWinner };
 })();

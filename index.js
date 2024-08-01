@@ -33,3 +33,23 @@ const Gameboard = (() => {
 
   return { getGameboard, getWinner };
 })();
+
+const DisplayController = (() => {
+  const getValue = (index, board) => (board && board[index]) || " ";
+
+  const display = (board) => {
+    let displayedBoard = "";
+
+    for (let i = 0; i < board.length; i += 3) {
+      displayedBoard += `${getValue(i, board)} | ${getValue(
+        i + 1,
+        board
+      )} | ${getValue(i + 2, board)}\n`;
+      if (i + 3 < board.length) displayedBoard += "---------\n";
+    }
+
+    console.log(displayedBoard);
+  };
+
+  return { display };
+})();

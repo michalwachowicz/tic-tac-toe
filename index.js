@@ -27,7 +27,9 @@ const Gameboard = (() => {
     return winner ? gameboard[winner[0]] : null;
   };
 
+  const getGameboard = () => gameboard;
+
   generateWinningCombinations();
 
-  return { gameboard, getWinner };
+  return { getGameboard, getWinner };
 })();

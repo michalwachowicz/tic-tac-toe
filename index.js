@@ -53,7 +53,7 @@ const GameController = () => {
   let winner = null;
 
   const switchActivePlayer = () =>
-    activePlayer == players[0] ? players[1] : players[0];
+    (activePlayer = activePlayer == players[0] ? players[1] : players[0]);
 
   const getWinner = () => winner;
   const getGameboard = () => board.getGameboard();

@@ -27,11 +27,18 @@ const Gameboard = (() => {
     return winner ? gameboard[winner[0]] : null;
   };
 
+  const placeMark = (mark, index) => {
+    if (index >= gameboard.length || gameboard[index]) return false;
+
+    gameboard[index] = mark;
+    return true;
+  };
+
   const getGameboard = () => gameboard;
 
   generateWinningCombinations();
 
-  return { getGameboard, getWinner };
+  return { getGameboard, getWinner, placeMark };
 })();
 
 const DisplayController = (() => {

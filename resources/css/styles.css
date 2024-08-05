@@ -105,3 +105,17 @@ h1 {
   font-size: 4rem;
   font-weight: bolder;
 }
+
+.winner-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.winner-mark {
+  text-align: center;
+  font-size: 8rem;
+  font-weight: 900;
+  margin-bottom: 3rem;
+}

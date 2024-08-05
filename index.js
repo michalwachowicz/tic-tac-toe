@@ -41,7 +41,7 @@ const Gameboard = () => {
   return { getGameboard, getWinnerMark, placeMark };
 };
 
-const GameController = (() => {
+const GameController = () => {
   const board = Gameboard();
 
   const players = [
@@ -73,12 +73,18 @@ const GameController = (() => {
   };
 
   return { playRound, getWinner, getGameboard };
-})();
+};
 
 const DisplayController = (() => {
-  const getValue = (index, board) => (board && board[index]) || " ";
+  const game = GameController();
 
-  const display = (board) => {
+  const getValue = (index) => {
+    const board = game.getGameboard();
+    return (board && board[index]) || " ";
+  };
+
+  const display = () => {
+    const board = game.getGameboard();
     let displayedBoard = "";
 
     for (let i = 0; i < board.length; i += 3) {

@@ -172,8 +172,10 @@ const DisplayController = (() => {
     gameover.classList.add("hidden");
 
     cells.forEach((cell) => (cell.textContent = ""));
-
     game.newGame(playerOne.value, playerTwo.value);
+
+    playerOne.value = "";
+    playerTwo.value = "";
   });
 
   newGameBtn.addEventListener("click", () => {

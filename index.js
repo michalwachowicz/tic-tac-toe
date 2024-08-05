@@ -107,8 +107,8 @@ const DisplayController = (() => {
   const playerOne = document.querySelector("#name-1");
   const playerTwo = document.querySelector("#name-2");
 
-  const winnerTitle = document.querySelector("h2.winner-title");
-  const winnerMark = document.querySelector("h3.winner-mark");
+  const winnerTitle = document.querySelector("h3.winner-title");
+  const winnerMark = document.querySelector(".winner-mark");
 
   const newGameForm = document.querySelector("#new-game-form");
   const gameContainer = document.querySelector(".game-container");

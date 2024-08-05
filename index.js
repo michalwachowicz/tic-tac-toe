@@ -63,6 +63,7 @@ const GameController = () => {
 
   const getWinner = () => winner;
   const getGameboard = () => board.getGameboard();
+  const getActivePlayer = () => activePlayer;
   const isTie = () => getGameboard().every((cell) => cell);
 
   const playRound = (index) => {
@@ -92,7 +93,14 @@ const GameController = () => {
     winner = null;
   };
 
-  return { playRound, getWinner, getGameboard, isTie, newGame };
+  return {
+    playRound,
+    getWinner,
+    getGameboard,
+    isTie,
+    newGame,
+    getActivePlayer,
+  };
 };
 
 const DisplayController = (() => {
@@ -120,6 +128,16 @@ const DisplayController = (() => {
       cells.push(cell);
     }
   };
+
+  gameGrid.addEventListener("click", (e) => {
+    const cell = e.target;
+    if (!cell.classList || !cell.classList.contains("cell")) return;
+
+    const index = cell.dataset.index;
+    const activePlayer = game.getActivePlayer();
+
+    if (game.playRound(index)) cell.textContent = activePlayer.mark;
+  });
 
   newGameForm.addEventListener("submit", (e) => {
     e.preventDefault();

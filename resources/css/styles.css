@@ -119,3 +119,9 @@ h1 {
   font-weight: 900;
   margin-bottom: 3rem;
 }
+
+.player-turn {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+}

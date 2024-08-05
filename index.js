@@ -98,5 +98,18 @@ const DisplayController = (() => {
     console.log(displayedBoard);
   };
 
-  return { display };
+  const playRound = (index) => {
+    if (game.playRound(index)) {
+      display();
+
+      const winner = game.getWinner();
+      if (!winner) return;
+
+      console.log(`${winner.name} won the game!`);
+    } else {
+      console.log("The game is over! Start a new game...");
+    }
+  };
+
+  return { playRound };
 })();

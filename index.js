@@ -114,6 +114,7 @@ const DisplayController = (() => {
   const gameContainer = document.querySelector(".game-container");
   const gameGrid = document.querySelector("#game");
   const gameover = document.querySelector("#gameover");
+  const newGameBtn = document.querySelector("#new-game-btn");
 
   const cells = [];
   const game = GameController();
@@ -173,6 +174,13 @@ const DisplayController = (() => {
     cells.forEach((cell) => (cell.textContent = ""));
 
     game.newGame(playerOne.value, playerTwo.value);
+  });
+
+  newGameBtn.addEventListener("click", () => {
+    newGameForm.classList.remove("hidden");
+    gameContainer.classList.add("hidden");
+    gameGrid.classList.add("hidden");
+    gameover.classList.add("hidden");
   });
 
   generateCells();

@@ -107,6 +107,9 @@ const DisplayController = (() => {
   const playerOne = document.querySelector("#name-1");
   const playerTwo = document.querySelector("#name-2");
 
+  const winnerTitle = document.querySelector("h2.winner-title");
+  const winnerMark = document.querySelector("h3.winner-mark");
+
   const newGameForm = document.querySelector("#new-game-form");
   const gameContainer = document.querySelector(".game-container");
   const gameGrid = document.querySelector("#game");
@@ -129,6 +132,14 @@ const DisplayController = (() => {
     }
   };
 
+  const showWinner = (title, mark) => {
+    winnerTitle.textContent = title;
+    winnerMark.textContent = mark;
+
+    gameGrid.classList.add("hidden");
+    gameover.classList.remove("hidden");
+  };
+
   gameGrid.addEventListener("click", (e) => {
     const cell = e.target;
     if (!cell.classList || !cell.classList.contains("cell")) return;
@@ -136,7 +147,19 @@ const DisplayController = (() => {
     const index = cell.dataset.index;
     const activePlayer = game.getActivePlayer();
 
-    if (game.playRound(index)) cell.textContent = activePlayer.mark;
+    if (game.playRound(index)) {
+      cell.textContent = activePlayer.mark;
+
+      if (game.isTie()) {
+        showWinner("Tie!", "×○");
+        return;
+      }
+
+      const winner = game.getWinner();
+      if (!winner) return;
+
+      showWinner(`${winner.name} won the game!`, winner.mark);
+    }
   });
 
   newGameForm.addEventListener("submit", (e) => {
@@ -149,7 +172,7 @@ const DisplayController = (() => {
 
     cells.forEach((cell) => (cell.textContent = ""));
 
-    game.newGame(playerOne, playerTwo);
+    game.newGame(playerOne.value, playerTwo.value);
   });
 
   const getValue = (index) => {

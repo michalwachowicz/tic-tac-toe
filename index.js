@@ -34,11 +34,17 @@ const Gameboard = () => {
     return true;
   };
 
+  const reset = () => {
+    for (let i = 0; i < gameboard.length; i++) {
+      gameboard[i] = null;
+    }
+  };
+
   const getGameboard = () => gameboard;
 
   generateWinningCombinations();
 
-  return { getGameboard, getWinnerMark, placeMark };
+  return { getGameboard, getWinnerMark, placeMark, reset };
 };
 
 const GameController = () => {
@@ -76,11 +82,27 @@ const GameController = () => {
     return true;
   };
 
-  return { playRound, getWinner, getGameboard, isTie };
+  const newGame = (playerOne, playerTwo) => {
+    board.reset();
+
+    players[0].name = playerOne;
+    players[1].name = playerTwo;
+
+    activePlayer = players[0];
+    winner = null;
+  };
+
+  return { playRound, getWinner, getGameboard, isTie, newGame };
 };
 
 const DisplayController = (() => {
+  const playerOne = document.querySelector("#name-1");
+  const playerTwo = document.querySelector("#name-2");
+
+  const newGameForm = document.querySelector("#new-game-form");
+  const gameContainer = document.querySelector(".game-container");
   const gameGrid = document.querySelector("#game");
+  const gameover = document.querySelector("#gameover");
 
   const cells = [];
   const game = GameController();
@@ -98,6 +120,17 @@ const DisplayController = (() => {
       cells.push(cell);
     }
   };
+
+  newGameForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    newGameForm.classList.add("hidden");
+    gameContainer.classList.remove("hidden");
+    gameGrid.classList.remove("hidden");
+    gameover.classList.add("hidden");
+
+    game.newGame(playerOne, playerTwo);
+  });
 
   const getValue = (index) => {
     const board = game.getGameboard();

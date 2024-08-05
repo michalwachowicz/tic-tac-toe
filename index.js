@@ -80,7 +80,24 @@ const GameController = () => {
 };
 
 const DisplayController = (() => {
+  const gameGrid = document.querySelector("#game");
+
+  const cells = [];
   const game = GameController();
+
+  const generateCells = () => {
+    const board = game.getGameboard();
+
+    for (let i = 0; i < board.length; i++) {
+      const cell = document.createElement("div");
+
+      cell.classList.add("cell");
+      cell.dataset.index = i;
+
+      gameGrid.appendChild(cell);
+      cells.push(cell);
+    }
+  };
 
   const getValue = (index) => {
     const board = game.getGameboard();
@@ -122,6 +139,8 @@ const DisplayController = (() => {
       console.log("Illegal move!");
     }
   };
+
+  generateCells();
 
   return { playRound };
 })();

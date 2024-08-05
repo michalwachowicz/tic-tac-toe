@@ -98,5 +98,10 @@ h1 {
 }
 
 .cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: var(--light);
+  font-size: 4rem;
+  font-weight: bolder;
 }

@@ -12,7 +12,27 @@
     <div class="container">
       <h1>Tic Tac Toe</h1>
 
-      <form id="new-game-form"></form>
+      <form id="new-game-form">
+        <div class="player-inputs">
+          <div class="input-container">
+            <label for="name-1">
+              First player's name (x):
+              <span aria-label="required">*</span>
+            </label>
+            <input type="text" name="name-1" id="name-1" required />
+          </div>
+
+          <div class="input-container">
+            <label for="name-2">
+              Second player's name (o):
+              <span aria-label="required">*</span>
+            </label>
+            <input type="text" name="name-2" id="name-2" required />
+          </div>
+        </div>
+
+        <button type="submit">NEW GAME</button>
+      </form>
 
       <div id="game"></div>
     </div>

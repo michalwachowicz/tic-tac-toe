@@ -67,6 +67,8 @@ const GameController = (() => {
     } else {
       switchActivePlayer();
     }
+
+    return true;
   };
 
   return { playRound, getWinner };

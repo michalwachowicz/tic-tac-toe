@@ -106,6 +106,15 @@ h1 {
   font-weight: bolder;
 }
 
+.cell-span {
+  transform: scale(0);
+  transition: transform 0.3s ease-in-out;
+}
+
+.cell-span.pressed {
+  transform: scale(1);
+}
+
 .winner-title {
   text-align: center;
   font-size: 2rem;

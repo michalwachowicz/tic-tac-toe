@@ -131,6 +131,10 @@ const DisplayController = (() => {
       cell.classList.add("cell");
       cell.dataset.index = i;
 
+      const span = document.createElement("span");
+      span.classList.add("cell-span");
+      cell.appendChild(span);
+
       gameGrid.appendChild(cell);
       cells.push(cell);
     }
@@ -160,7 +164,11 @@ const DisplayController = (() => {
     const activePlayer = game.getActivePlayer();
 
     if (game.playRound(index)) {
-      cell.textContent = activePlayer.mark;
+      const span = cell.firstChild;
+
+      span.textContent = activePlayer.mark;
+      span.classList.add("pressed");
+
       showPlayerTurn();
 
       if (game.isTie()) {
@@ -184,7 +192,13 @@ const DisplayController = (() => {
     gameGrid.classList.remove("hidden");
     gameover.classList.add("hidden");
 
-    cells.forEach((cell) => (cell.textContent = ""));
+    cells.forEach((cell) => {
+      const span = cell.firstChild;
+
+      span.textContent = "";
+      span.classList.remove("pressed");
+    });
+
     game.newGame(playerOne.value, playerTwo.value);
 
     playerOne.value = "";

@@ -175,48 +175,5 @@ const DisplayController = (() => {
     game.newGame(playerOne.value, playerTwo.value);
   });
 
-  const getValue = (index) => {
-    const board = game.getGameboard();
-    return (board && board[index]) || " ";
-  };
-
-  const display = () => {
-    const board = game.getGameboard();
-    let displayedBoard = "";
-
-    for (let i = 0; i < board.length; i += 3) {
-      displayedBoard += `${getValue(i, board)} | ${getValue(
-        i + 1,
-        board
-      )} | ${getValue(i + 2, board)}\n`;
-      if (i + 3 < board.length) displayedBoard += "---------\n";
-    }
-
-    console.log(displayedBoard);
-  };
-
-  const playRound = (index) => {
-    const winner = game.getWinner();
-    const tie = game.isTie();
-
-    if (game.playRound(index)) {
-      display();
-
-      if (tie) {
-        console.log("Tie!");
-        return;
-      }
-      if (!winner) return;
-
-      console.log(`${winner.name} won the game!`);
-    } else if (tie || winner) {
-      console.log("The game is over! Start a new game...");
-    } else {
-      console.log("Illegal move!");
-    }
-  };
-
   generateCells();
-
-  return { playRound };
 })();

@@ -51,8 +51,8 @@ const GameController = () => {
   const board = Gameboard();
 
   const players = [
-    { name: "Player 1", mark: "x" },
-    { name: "Player 2", mark: "o" },
+    { name: "Player 1", mark: "×" },
+    { name: "Player 2", mark: "○" },
   ];
 
   let activePlayer = players[0];

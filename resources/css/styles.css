@@ -81,3 +81,22 @@ h1 {
   align-items: center;
   gap: 5rem;
 }
+
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#game {
+  display: grid;
+  background-color: var(--dark);
+  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+  aspect-ratio: 1 / 1;
+  width: min(100%, 480px);
+  gap: 1rem;
+}
+
+.cell {
+  background-color: var(--light);
+}

@@ -58,7 +58,7 @@ const GameController = (() => {
   const getWinner = () => winner;
 
   const playRound = (index) => {
-    if (!board.placeMark(activePlayer.mark, index)) return false;
+    if (winner || !board.placeMark(activePlayer.mark, index)) return false;
 
     const winnerMark = board.getWinnerMark();
 

@@ -18,7 +18,7 @@ const Gameboard = (() => {
     winningCombinations.push([2, 4, 6]);
   };
 
-  const getWinner = () => {
+  const getWinnerMark = () => {
     const winner = winningCombinations.find(([a, b, c]) => {
       const symbol = gameboard[a];
       return symbol && symbol == gameboard[b] && symbol == gameboard[c];
@@ -38,7 +38,36 @@ const Gameboard = (() => {
 
   generateWinningCombinations();
 
-  return { getGameboard, getWinner, placeMark };
+  return { getGameboard, getWinnerMark, placeMark };
+})();
+
+const GameController = (() => {
+  const players = [
+    { name: "Player 1", mark: "x" },
+    { name: "Player 2", mark: "o" },
+  ];
+
+  let activePlayer = players[0];
+  let winner = null;
+
+  const switchActivePlayer = () =>
+    activePlayer == players[0] ? players[1] : players[0];
+
+  const getWinner = () => winner;
+
+  const playRound = (index) => {
+    if (!Gameboard.placeMark(activePlayer.mark, index)) return false;
+
+    const winnerMark = Gameboard.getWinnerMark();
+
+    if (winnerMark) {
+      winner = players.find((player) => player.mark == winnerMark);
+    } else {
+      switchActivePlayer();
+    }
+  };
+
+  return { playRound, getWinner };
 })();
 
 const DisplayController = (() => {

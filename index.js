@@ -52,7 +52,7 @@ const GameController = () => {
 
   const players = [
     { name: "Player 1", mark: "×" },
-    { name: "Player 2", mark: "○" },
+    { name: "Player 2", mark: "o" },
   ];
 
   let activePlayer = players[0];
@@ -63,6 +63,7 @@ const GameController = () => {
 
   const getWinner = () => winner;
   const getGameboard = () => board.getGameboard();
+  const getPlayers = () => players;
   const getActivePlayer = () => activePlayer;
   const isTie = () => getGameboard().every((cell) => cell);
 
@@ -99,6 +100,7 @@ const GameController = () => {
     getGameboard,
     isTie,
     newGame,
+    getPlayers,
     getActivePlayer,
   };
 };
@@ -162,7 +164,8 @@ const DisplayController = (() => {
       showPlayerTurn();
 
       if (game.isTie()) {
-        showWinner("Tie!", "×○");
+        const players = game.getPlayers();
+        showWinner("Tie!", `${players[0].mark}${players[1].mark}`);
         return;
       }
 

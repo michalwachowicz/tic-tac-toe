@@ -107,6 +107,7 @@ const DisplayController = (() => {
   const playerOne = document.querySelector("#name-1");
   const playerTwo = document.querySelector("#name-2");
 
+  const playerTurn = document.querySelector("h2.player-turn");
   const winnerTitle = document.querySelector("h3.winner-title");
   const winnerMark = document.querySelector(".winner-mark");
 
@@ -139,6 +140,14 @@ const DisplayController = (() => {
 
     gameGrid.classList.add("hidden");
     gameover.classList.remove("hidden");
+    playerTurn.classList.add("hidden");
+  };
+
+  const showPlayerTurn = () => {
+    const activePlayer = game.getActivePlayer();
+
+    playerTurn.classList.remove("hidden");
+    playerTurn.textContent = `${activePlayer.name}'s turn (${activePlayer.mark})`;
   };
 
   gameGrid.addEventListener("click", (e) => {
@@ -150,6 +159,7 @@ const DisplayController = (() => {
 
     if (game.playRound(index)) {
       cell.textContent = activePlayer.mark;
+      showPlayerTurn();
 
       if (game.isTie()) {
         showWinner("Tie!", "×○");
@@ -176,6 +186,8 @@ const DisplayController = (() => {
 
     playerOne.value = "";
     playerTwo.value = "";
+
+    showPlayerTurn();
   });
 
   newGameBtn.addEventListener("click", () => {

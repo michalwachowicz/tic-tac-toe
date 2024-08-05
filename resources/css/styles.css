@@ -28,6 +28,7 @@ h1 {
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
+  width: 100%;
 }
 
 .input-container {
@@ -67,4 +68,12 @@ h1 {
   background-color: var(--dark);
   font-size: 1.5rem;
   font-weight: bold;
+  width: min(100%, 360px);
+}
+
+#new-game-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rem;
 }

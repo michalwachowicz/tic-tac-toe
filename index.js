@@ -57,9 +57,13 @@ const GameController = () => {
 
   const getWinner = () => winner;
   const getGameboard = () => board.getGameboard();
+  const isTie = () => getGameboard().every((cell) => cell);
 
   const playRound = (index) => {
-    if (winner || !board.placeMark(activePlayer.mark, index)) return false;
+    const markPlaced = board.placeMark(activePlayer.mark, index);
+
+    if (winner || !markPlaced) return false;
+    if (markPlaced && isTie()) return true;
 
     const winnerMark = board.getWinnerMark();
 
@@ -72,7 +76,7 @@ const GameController = () => {
     return true;
   };
 
-  return { playRound, getWinner, getGameboard };
+  return { playRound, getWinner, getGameboard, isTie };
 };
 
 const DisplayController = (() => {
@@ -99,15 +103,23 @@ const DisplayController = (() => {
   };
 
   const playRound = (index) => {
+    const winner = game.getWinner();
+    const tie = game.isTie();
+
     if (game.playRound(index)) {
       display();
 
-      const winner = game.getWinner();
+      if (tie) {
+        console.log("Tie!");
+        return;
+      }
       if (!winner) return;
 
       console.log(`${winner.name} won the game!`);
-    } else {
+    } else if (tie || winner) {
       console.log("The game is over! Start a new game...");
+    } else {
+      console.log("Illegal move!");
     }
   };
 

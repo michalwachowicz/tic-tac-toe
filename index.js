@@ -129,6 +129,8 @@ const DisplayController = (() => {
     gameGrid.classList.remove("hidden");
     gameover.classList.add("hidden");
 
+    cells.forEach((cell) => (cell.textContent = ""));
+
     game.newGame(playerOne, playerTwo);
   });
 
